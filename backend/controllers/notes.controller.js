@@ -14,16 +14,20 @@ export const getAllNotes = async (req, res)=> {
 export const getNoteById = async (req, res) => {
     try {
         const { id } = req.params;
-        if(!id) res.status(400).send({message: "id is required"});
+        if (!id) {
+            return res.status(400).send({ message: "id is required" });
+        }
 
-        const note = Note.findOne({_id: id});
-        if(!note) res.status(404).send({message: "note not found"});
+        const note = await Note.findOne({ _id: id });
+        if (!note) {
+            return res.status(404).send({ message: "note not found" });
+        }
 
-        res.status(200).send({note: note});
+        return res.status(200).send({ note });
     } catch (error) {
-        res.status(500).send({message: error.message})
+        return res.status(500).send({ message: error.message });
     }
-}
+};
 
 export const createNote = async (req, res)=>{
     try {    
